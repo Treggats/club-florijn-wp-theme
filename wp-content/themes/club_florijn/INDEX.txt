@@ -1,0 +1,70 @@
+Simple Posts Theme v2.0
+
+REDESIGN COMPLETE - Ready to Use
+
+This directory contains a completely redesigned WordPress theme with modern layout
+inspired by clubflorijn.nl and styled entirely with TailwindCSS.
+
+FILES:
+------
+Core Theme Files:
+  • style.css           Theme metadata and version info
+  • functions.php       Theme initialization and enqueue
+  • index.php           Blog/Archive listing template
+  • single.php          Single post template
+  • search.php          Search results template
+  • 404.php             Error page template
+  • header.php          Header component (optional)
+  • footer.php          Footer component (optional)
+
+Documentation:
+  • README.md           Full theme documentation
+  • SETUP_GUIDE.md      Step-by-step setup instructions
+  • REDESIGN.md         Project redesign details
+  • COMPLETION_SUMMARY.md Overview of changes
+  • INSTALLATION.txt    Quick reference
+
+QUICK START:
+-----------
+1. Theme is ready to activate in WordPress admin
+2. Go to Appearance → Themes → Activate "Simple Posts"
+3. Create Primary Menu in Appearance → Menus
+4. Add featured images to posts
+5. Configure customizations as needed
+
+FEATURES:
+---------
+✅ Modern card-based design
+✅ Sticky header navigation
+✅ Responsive grid layout (1-3 columns)
+✅ Featured image support with zoom
+✅ Search functionality
+✅ Breadcrumb navigation
+✅ Custom 404 page
+✅ Dark footer
+✅ TailwindCSS styling (100%)
+✅ Mobile-first responsive design
+✅ Gutenberg compatible
+✅ No comments
+✅ SEO friendly
+
+STYLING:
+--------
+Framework: TailwindCSS 3.0+ (from CDN)
+No custom CSS files needed
+All styling via utility classes
+Easy to customize
+
+REQUIREMENTS:
+-------------
+WordPress: 5.0+
+PHP: 7.4+
+TailwindCSS: 3.0+ (loaded automatically from CDN)
+
+DOCUMENTATION:
+--------------
+Start with SETUP_GUIDE.md for installation
+Read README.md for complete feature documentation
+See REDESIGN.md for technical implementation details
+
+Happy customizing! 🎨

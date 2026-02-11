@@ -2,58 +2,205 @@
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover">
     <title><?php bloginfo('name'); ?></title>
     <?php wp_head(); ?>
 </head>
-<body class="bg-gray-50">
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <header class="mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">
-                <a href="<?php echo esc_url(home_url('/')); ?>" class="hover:text-blue-600 transition-colors">
-                    <?php bloginfo('name'); ?>
-                </a>
-            </h1>
-            <?php if (get_bloginfo('description')) : ?>
-                <p class="text-gray-600"><?php bloginfo('description'); ?></p>
-            <?php endif; ?>
+<body class="bg-gray-50 text-gray-900 antialiased">
+    <div id="main-container" class="flex flex-col min-h-screen">
+        <!-- Header -->
+        <header id="header" class="bg-blue-900 text-white sticky top-0 z-50 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <!-- Logo/Site Title -->
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold">
+                            <a href="<?php echo esc_url(home_url('/')); ?>" class="text-white hover:text-blue-100 transition-colors">
+                                <?php bloginfo('name'); ?>
+                            </a>
+                        </h1>
+                    </div>
+
+                    <!-- Navigation Menu -->
+                    <nav class="hidden md:flex space-x-8">
+                        <?php
+                        wp_nav_menu(array(
+                            'theme_location' => 'primary',
+                            'fallback_cb' => false,
+                            'container_class' => 'flex space-x-8',
+                            'link_before' => '<span class="text-blue-100 hover:text-white transition-colors">',
+                            'link_after' => '</span>',
+                            'depth' => 1
+                        ));
+                        ?>
+                    </nav>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-blue-800 transition-colors" aria-expanded="false">
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </header>
 
-        <main>
-            <?php if (have_posts()) : ?>
-                <div class="space-y-12">
-                    <?php while (have_posts()) : the_post(); ?>
-                        <article id="post-<?php the_ID(); ?>" class="bg-white rounded-lg shadow-sm p-8">
-                            <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                                <a href="<?php the_permalink(); ?>" class="hover:text-blue-600 transition-colors">
-                                    <?php the_title(); ?>
-                                </a>
-                            </h2>
-                            <div class="text-sm text-gray-500 mb-6">
-                                <?php echo get_the_date(); ?>
-                            </div>
-                            <div class="prose prose-lg max-w-none text-gray-700">
-                                <?php the_content(); ?>
-                            </div>
-                        </article>
-                    <?php endwhile; ?>
-                </div>
+        <!-- Main Content -->
+        <main id="main" class="site-main flex-grow">
+            <div class="w-full px-4 sm:px-6 lg:px-8 py-16">
+                <!-- Search Bar - Centered -->
+                <section class="flex justify-center mb-16">
+                    <form role="search" method="get" class="w-full max-w-lg" action="<?php echo esc_url(home_url('/')); ?>">
+                        <div class="relative">
+                            <input
+                                type="search"
+                                placeholder="Zoeken"
+                                value="<?php echo get_search_query(); ?>"
+                                name="s"
+                                class="w-full px-6 py-4 border-2 border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-lg"
+                                aria-label="<?php esc_attr_e('Search Posts', 'simple-posts'); ?>"
+                            >
+                            <button type="submit" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-yellow-500 hover:text-yellow-600 transition-colors">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </section>
 
-                <div class="mt-12 flex justify-between items-center">
-                    <div>
-                        <?php previous_posts_link('&larr; Newer Posts', 0); ?>
-                    </div>
-                    <div>
-                        <?php next_posts_link('Older Posts &rarr;', 0); ?>
+                <!-- Main Content with Sidebar -->
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                        <!-- Left Column - Posts (3 columns width) -->
+                        <div class="lg:col-span-3">
+                            <?php if (have_posts()) : ?>
+                                <div class="space-y-6">
+                                    <?php while (have_posts()) : the_post(); ?>
+                                        <article id="post-<?php the_ID(); ?>" class="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-blue-900">
+                                            <!-- Title -->
+                                            <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                                                <a href="<?php the_permalink(); ?>" class="hover:text-blue-600 transition-colors">
+                                                    <?php the_title(); ?>
+                                                </a>
+                                            </h2>
+
+                                            <!-- Metadata -->
+                                            <div class="flex items-center gap-4 mb-4 text-sm text-gray-500">
+                                                <time datetime="<?php echo get_the_date('c'); ?>">
+                                                    <?php echo get_the_date('F j, Y'); ?>
+                                                </time>
+                                                <?php if (get_the_author()) : ?>
+                                                    <span>|</span>
+                                                    <span><?php esc_html_e('By', 'simple-posts'); ?> <strong><?php the_author(); ?></strong></span>
+                                                <?php endif; ?>
+                                            </div>
+
+                                            <!-- Excerpt -->
+                                            <div class="text-gray-700 mb-4">
+                                                <?php
+                                                if (has_excerpt()) {
+                                                    echo get_the_excerpt();
+                                                } else {
+                                                    echo wp_trim_words(get_the_content(), 30);
+                                                }
+                                                ?>
+                                            </div>
+
+                                            <!-- Read More Link -->
+                                            <a href="<?php the_permalink(); ?>" class="inline-block text-blue-600 hover:text-blue-700 font-semibold transition-colors">
+                                                <?php esc_html_e('Read More', 'simple-posts'); ?> &rarr;
+                                            </a>
+                                        </article>
+                                    <?php endwhile; ?>
+                                </div>
+
+                                <!-- Pagination -->
+                                <nav class="flex justify-center gap-4 mt-12" aria-label="Posts">
+                                    <?php
+                                    $pagination_args = array(
+                                        'prev_text' => '&larr; ' . esc_html__('Newer Posts', 'simple-posts'),
+                                        'next_text' => esc_html__('Older Posts', 'simple-posts') . ' &rarr;',
+                                        'type' => 'list',
+                                    );
+                                    the_posts_pagination($pagination_args);
+                                    ?>
+                                </nav>
+
+                            <?php else : ?>
+                                <!-- No Posts Message -->
+                                <div class="text-center py-12">
+                                    <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">
+                                        <?php esc_html_e('No posts found', 'simple-posts'); ?>
+                                    </h3>
+                                    <p class="text-gray-600 mb-6">
+                                        <?php esc_html_e('Try using the search above or check back later.', 'simple-posts'); ?>
+                                    </p>
+                                    <a href="<?php echo esc_url(home_url('/')); ?>" class="inline-block px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors">
+                                        <?php esc_html_e('Back to Home', 'simple-posts'); ?>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Right Sidebar - Agenda (1 column width) -->
+                        <div class="lg:col-span-1">
+                            <aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24">
+                                <h3 class="text-xl font-bold text-gray-900 mb-6">
+                                    <?php esc_html_e('Agenda', 'simple-posts'); ?>
+                                </h3>
+
+                                <!-- Dynamic Agenda from Categories or Custom Widget -->
+                                <div class="space-y-3">
+                                    <?php
+                                    $categories = get_categories(array(
+                                        'number' => 5,
+                                        'hide_empty' => false,
+                                    ));
+
+                                    if ($categories) :
+                                        foreach ($categories as $category) : ?>
+                                            <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>" class="block text-blue-600 hover:text-blue-700 transition-colors text-sm font-medium">
+                                                • <?php echo esc_html($category->name); ?>
+                                                <span class="text-gray-500">(<?php echo $category->count; ?>)</span>
+                                            </a>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <p class="text-gray-600 text-sm"><?php esc_html_e('No categories available', 'simple-posts'); ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </aside>
+                        </div>
                     </div>
                 </div>
-            <?php else : ?>
-                <div class="bg-white rounded-lg shadow-sm p-8">
-                    <p class="text-gray-600">No posts found.</p>
-                </div>
-            <?php endif; ?>
+            </div>
         </main>
+
+        <!-- Footer -->
+        <footer id="footer" class="bg-blue-900 text-blue-100 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                    <p class="text-sm">
+                        &copy; <?php echo date('Y'); ?> - <?php bloginfo('name'); ?>
+                    </p>
+                    <nav class="flex space-x-6">
+                        <?php
+                        wp_nav_menu(array(
+                            'theme_location' => 'footer',
+                            'fallback_cb' => false,
+                            'container_class' => 'flex space-x-6',
+                            'depth' => 1
+                        ));
+                        ?>
+                    </nav>
+                </div>
+            </div>
+        </footer>
     </div>
+
     <?php wp_footer(); ?>
 </body>
 </html>

@@ -1,11 +1,18 @@
 /*
-Theme Name: Simple Posts
-Theme URI: https://example.com
-Author: Your Name
-Author URI: https://example.com
-Description: A simple WordPress theme that displays posts clearly with title and content only. No comments.
-Version: 1.0
+Theme Name: Club Florijn
+Theme URI: https://www.clubflorijn.nl
+Author: Tonko Mulder
+Author URI: https://tonkomulder.nl
+Description: A modern, minimal WordPress theme inspired by clubflorijn.nl. Features a clean card-based design with TailwindCSS, sticky header navigation, search functionality, and responsive layouts. No comments functionality.
+Version: 2.0
+Requires at least: 5.0
+Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: simple-posts
+Text Domain: club_florijn
+Domain Path: /languages
+Tags: minimal, blog, responsive, clean, modern, tailwindcss
+
+This theme uses TailwindCSS (v3+) from CDN for all styling.
+No custom CSS files are included - all styling is done via TailwindCSS utility classes.
 */
