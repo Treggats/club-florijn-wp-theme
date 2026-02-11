@@ -109,7 +109,7 @@
                                     $prev_post = get_previous_post();
                                     if ($prev_post) {
                                         echo '<a href="' . get_permalink($prev_post->ID) . '" class="text-blue-600 hover:text-blue-700 transition-colors">';
-                                        echo '&larr; ' . esc_html__('Previous Post', 'simple-posts');
+                                        echo '&larr; ' . esc_html__('Previous Post', 'club_florijn');
                                         echo '</a>';
                                     }
                                     ?>
@@ -119,7 +119,7 @@
                                     $next_post = get_next_post();
                                     if ($next_post) {
                                         echo '<a href="' . get_permalink($next_post->ID) . '" class="text-blue-600 hover:text-blue-700 transition-colors">';
-                                        echo esc_html__('Next Post', 'simple-posts') . ' &rarr;';
+                                        echo esc_html__('Next Post', 'club_florijn') . ' &rarr;';
                                         echo '</a>';
                                     }
                                     ?>

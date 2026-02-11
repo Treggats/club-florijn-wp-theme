@@ -3,7 +3,7 @@
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <p class="text-sm">
-                        &copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. <?php esc_html_e('All rights reserved.', 'simple-posts'); ?>
+                        &copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. <?php esc_html_e('All rights reserved.', 'club_florijn'); ?>
                     </p>
                     <nav class="mt-4 md:mt-0 flex space-x-6">
                         <?php

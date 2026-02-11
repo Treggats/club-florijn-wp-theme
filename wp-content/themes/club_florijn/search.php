@@ -63,7 +63,7 @@
                                 value="<?php echo get_search_query(); ?>"
                                 name="s"
                                 class="w-full px-6 py-4 border-2 border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-lg"
-                                aria-label="<?php esc_attr_e('Search Posts', 'simple-posts'); ?>"
+                                aria-label="<?php esc_attr_e('Search Posts', 'club_florijn'); ?>"
                             >
                             <button type="submit" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-yellow-500 hover:text-yellow-600 transition-colors">
                                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,11 +77,11 @@
                 <!-- Results Info -->
                 <div class="max-w-4xl mx-auto mb-12">
                     <h2 class="text-2xl font-bold text-gray-900 mb-2">
-                        <?php esc_html_e('Search Results for:', 'simple-posts'); ?> "<span class="text-blue-600"><?php echo get_search_query(); ?></span>"
+                        <?php esc_html_e('Search Results for:', 'club_florijn'); ?> "<span class="text-blue-600"><?php echo get_search_query(); ?></span>"
                     </h2>
                     <p class="text-gray-600">
                         <?php printf(
-                            esc_html__('Found %s result(s)', 'simple-posts'),
+                            esc_html__('Found %s result(s)', 'club_florijn'),
                             number_format_i18n($wp_query->found_posts)
                         ); ?>
                     </p>
@@ -120,7 +120,7 @@
 
                                 <!-- Read More Link -->
                                 <a href="<?php the_permalink(); ?>" class="inline-block text-blue-600 hover:text-blue-700 font-semibold transition-colors">
-                                    <?php esc_html_e('Read More', 'simple-posts'); ?> &rarr;
+                                    <?php esc_html_e('Read More', 'club_florijn'); ?> &rarr;
                                 </a>
                             </article>
                         <?php endwhile; ?>
@@ -130,8 +130,8 @@
                     <nav class="flex justify-center gap-4 mt-12" aria-label="Posts">
                         <?php
                         $pagination_args = array(
-                            'prev_text' => '&larr; ' . esc_html__('Newer Results', 'simple-posts'),
-                            'next_text' => esc_html__('Older Results', 'simple-posts') . ' &rarr;',
+                            'prev_text' => '&larr; ' . esc_html__('Newer Results', 'club_florijn'),
+                            'next_text' => esc_html__('Older Results', 'club_florijn') . ' &rarr;',
                             'type' => 'list',
                         );
                         the_posts_pagination($pagination_args);
@@ -145,13 +145,13 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
                         <h3 class="text-lg font-medium text-gray-900 mb-2">
-                            <?php esc_html_e('No search results found', 'simple-posts'); ?>
+                            <?php esc_html_e('No search results found', 'club_florijn'); ?>
                         </h3>
                         <p class="text-gray-600 mb-6">
-                            <?php esc_html_e('Try a different search term.', 'simple-posts'); ?>
+                            <?php esc_html_e('Try a different search term.', 'club_florijn'); ?>
                         </p>
                         <a href="<?php echo esc_url(home_url('/')); ?>" class="inline-block px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors">
-                            <?php esc_html_e('Back to Home', 'simple-posts'); ?>
+                            <?php esc_html_e('Back to Home', 'club_florijn'); ?>
                         </a>
                     </div>
                 <?php endif; ?>

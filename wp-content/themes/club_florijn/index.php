@@ -48,27 +48,6 @@
         <!-- Main Content -->
         <main id="main" class="site-main flex-grow">
             <div class="w-full px-4 sm:px-6 lg:px-8 py-16">
-                <!-- Search Bar - Centered -->
-                <section class="flex justify-center mb-16">
-                    <form role="search" method="get" class="w-full max-w-lg" action="<?php echo esc_url(home_url('/')); ?>">
-                        <div class="relative">
-                            <input
-                                type="search"
-                                placeholder="Zoeken"
-                                value="<?php echo get_search_query(); ?>"
-                                name="s"
-                                class="w-full px-6 py-4 border-2 border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-lg"
-                                aria-label="<?php esc_attr_e('Search Posts', 'simple-posts'); ?>"
-                            >
-                            <button type="submit" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-yellow-500 hover:text-yellow-600 transition-colors">
-                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
-                </section>
-
                 <!-- Main Content with Sidebar -->
                 <div class="max-w-7xl mx-auto">
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -92,7 +71,7 @@
                                                 </time>
                                                 <?php if (get_the_author()) : ?>
                                                     <span>|</span>
-                                                    <span><?php esc_html_e('By', 'simple-posts'); ?> <strong><?php the_author(); ?></strong></span>
+                                                    <span><?php esc_html_e('By', 'club_florijn'); ?> <strong><?php the_author(); ?></strong></span>
                                                 <?php endif; ?>
                                             </div>
 
@@ -109,7 +88,7 @@
 
                                             <!-- Read More Link -->
                                             <a href="<?php the_permalink(); ?>" class="inline-block text-blue-600 hover:text-blue-700 font-semibold transition-colors">
-                                                <?php esc_html_e('Read More', 'simple-posts'); ?> &rarr;
+                                                <?php esc_html_e('Read More', 'club_florijn'); ?> &rarr;
                                             </a>
                                         </article>
                                     <?php endwhile; ?>
@@ -119,8 +98,8 @@
                                 <nav class="flex justify-center gap-4 mt-12" aria-label="Posts">
                                     <?php
                                     $pagination_args = array(
-                                        'prev_text' => '&larr; ' . esc_html__('Newer Posts', 'simple-posts'),
-                                        'next_text' => esc_html__('Older Posts', 'simple-posts') . ' &rarr;',
+                                        'prev_text' => '&larr; ' . esc_html__('Newer Posts', 'club_florijn'),
+                                        'next_text' => esc_html__('Older Posts', 'club_florijn') . ' &rarr;',
                                         'type' => 'list',
                                     );
                                     the_posts_pagination($pagination_args);
@@ -134,13 +113,13 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
                                     <h3 class="text-lg font-medium text-gray-900 mb-2">
-                                        <?php esc_html_e('No posts found', 'simple-posts'); ?>
+                                        <?php esc_html_e('No posts found', 'club_florijn'); ?>
                                     </h3>
                                     <p class="text-gray-600 mb-6">
-                                        <?php esc_html_e('Try using the search above or check back later.', 'simple-posts'); ?>
+                                        <?php esc_html_e('Try using the search above or check back later.', 'club_florijn'); ?>
                                     </p>
                                     <a href="<?php echo esc_url(home_url('/')); ?>" class="inline-block px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors">
-                                        <?php esc_html_e('Back to Home', 'simple-posts'); ?>
+                                        <?php esc_html_e('Back to Home', 'club_florijn'); ?>
                                     </a>
                                 </div>
                             <?php endif; ?>
@@ -150,7 +129,7 @@
                         <div class="lg:col-span-1">
                             <aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24">
                                 <h3 class="text-xl font-bold text-gray-900 mb-6">
-                                    <?php esc_html_e('Agenda', 'simple-posts'); ?>
+                                    <?php esc_html_e('Agenda', 'club_florijn'); ?>
                                 </h3>
 
                                 <!-- Dynamic Agenda from Categories or Custom Widget -->
@@ -169,7 +148,7 @@
                                             </a>
                                         <?php endforeach;
                                     else : ?>
-                                        <p class="text-gray-600 text-sm"><?php esc_html_e('No categories available', 'simple-posts'); ?></p>
+                                        <p class="text-gray-600 text-sm"><?php esc_html_e('No categories available', 'club_florijn'); ?></p>
                                     <?php endif; ?>
                                 </div>
                             </aside>
