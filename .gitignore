@@ -1,0 +1,7 @@
+.idea/
+wp-*.php
+xmlrpc.php
+wp-includes/
+wp-admin/
+wp-content/plugins/
+!wp-content/plugins/index.php
