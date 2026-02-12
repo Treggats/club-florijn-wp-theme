@@ -126,6 +126,20 @@ class Simple_Posts_Menu_Walker extends Walker_Nav_Menu {
 add_theme_support('wp-block-styles');
 add_theme_support('responsive-embeds');
 
+// Register widget areas
+add_action('widgets_init', function() {
+    register_sidebar([
+        'name' => esc_html__('Ambassadeurs', 'club_florijn'),
+        'id' => 'ambassadeurs-sidebar',
+        'description' => esc_html__('Sidebar for displaying information about ambassadors.', 'club_florijn'),
+        'before_widget' => '<aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24 mb-4">',
+        'after_widget' => '</aside>',
+        'before_title' => '<h3 class="text-xl font-bold text-gray-900 mb-6">',
+        'after_title' => '</h3>',
+    ]);
+});
+
+
 // Load and register custom widgets
 require_once get_template_directory() . '/widgets/ShortTextWidget.php';
 
