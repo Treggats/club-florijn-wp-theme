@@ -125,3 +125,10 @@ class Simple_Posts_Menu_Walker extends Walker_Nav_Menu {
 // Add support for gutenberg blocks
 add_theme_support('wp-block-styles');
 add_theme_support('responsive-embeds');
+
+// Load and register custom widgets
+require_once get_template_directory() . '/widgets/ShortTextWidget.php';
+
+add_action('widgets_init', function() {
+    register_widget('ShortTextWidget');
+});
