@@ -131,23 +131,35 @@
                                     <?php esc_html_e('Bijeenkomsten', 'club_florijn'); ?>
                                 </h3>
 
-                                <!-- Dynamic Agenda from Categories or Custom Widget -->
+                                <!-- Dynamic Bijeenkomsten List -->
                                 <div class="space-y-3">
                                     <?php
-                                    $categories = get_categories([
-                                        'number' => 5,
-                                        'hide_empty' => false,
+                                    $bijeenkomsten = get_posts([
+                                        'post_type' => 'bijeenkomst',
+                                        'numberposts' => 5,
+                                        'orderby' => 'date',
+                                        'order' => 'DESC',
                                     ]);
 
-                                    if ($categories) :
-                                        foreach ($categories as $category) : ?>
-                                            <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>" class="block text-blue-600 hover:text-blue-700 transition-colors text-sm font-medium">
-                                                • <?php echo esc_html($category->name); ?>
-                                                <span class="text-gray-500">(<?php echo $category->count; ?>)</span>
+                                    if ($bijeenkomsten) : ?>
+                                        <ul>
+                                        <?php foreach ($bijeenkomsten as $bijeenkomst) :
+                                            $ambassadors = get_post_meta($bijeenkomst->ID, '_bijeenkomst_ambassadors', true);
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo esc_url(get_permalink($bijeenkomst->ID)); ?>" class="block text-blue-600 hover:text-blue-700 transition-colors text-sm font-medium">
+                                                <strong><?php echo esc_html($bijeenkomst->post_title); ?></strong>
+                                                <?php if ($ambassadors) : ?>
+                                                    <div class="text-xs text-gray-600 mt-1">
+                                                        <?php echo esc_html($ambassadors); ?>
+                                                    </div>
+                                                <?php endif; ?>
                                             </a>
-                                        <?php endforeach;
-                                    else : ?>
-                                        <p class="text-gray-600 text-sm"><?php esc_html_e('No categories available', 'club_florijn'); ?></p>
+                                        </li>
+                                        <?php endforeach; ?>
+                                        </ul>
+                                    <?php else : ?>
+                                        <p class="text-gray-600 text-sm"><?php esc_html_e('No bijeenkomsten available', 'club_florijn'); ?></p>
                                     <?php endif; ?>
                                 </div>
                             </aside>

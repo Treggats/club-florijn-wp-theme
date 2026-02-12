@@ -157,3 +157,95 @@ require_once get_template_directory() . '/widgets/ShortTextWidget.php';
 add_action('widgets_init', function() {
     register_widget('ShortTextWidget');
 });
+
+// Register custom post type: Bijeenkomst
+add_action('init', function() {
+    $args = [
+        'label' => esc_html__('Bijeenkomsten', 'club_florijn'),
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'show_in_nav_menus' => true,
+        'query_var' => true,
+        'rewrite' => ['slug' => 'bijeenkomsten'],
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
+        'taxonomies' => ['category'],
+        'menu_icon' => 'dashicons-calendar-alt',
+    ];
+    register_post_type('bijeenkomst', $args);
+});
+
+// Flush rewrite rules when theme is activated
+add_action('after_setup_theme', function() {
+    flush_rewrite_rules();
+});
+
+// Register custom meta fields for Bijeenkomst post type
+add_action('init', function() {
+    // Ambassadors meta field (comma-separated or multiple entries)
+    register_meta('post', '_bijeenkomst_ambassadors', array(
+        'object_subtype' => 'bijeenkomst',
+        'type' => 'string',
+        'description' => esc_html__('Names of ambassadors organizing this bijeenkomst', 'club_florijn'),
+        'show_in_rest' => true,
+        'single' => true,
+    ));
+});
+
+// Add custom meta box for ambassadors in the post editor
+add_action('add_meta_boxes', function() {
+    add_meta_box(
+        'bijeenkomst_ambassadors',
+        esc_html__('Ambassadors', 'club_florijn'),
+        function($post) {
+            $ambassadors = get_post_meta($post->ID, '_bijeenkomst_ambassadors', true);
+            wp_nonce_field('bijeenkomst_ambassadors_nonce', 'bijeenkomst_ambassadors_nonce');
+            ?>
+            <div style="margin: 10px 0;">
+                <label for="bijeenkomst_ambassadors" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                    <?php esc_html_e('Ambassador Names (comma-separated)', 'club_florijn'); ?>
+                </label>
+                <textarea
+                    id="bijeenkomst_ambassadors"
+                    name="bijeenkomst_ambassadors"
+                    rows="4"
+                    style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace;"
+                    placeholder="<?php esc_attr_e('Enter ambassador names separated by commas', 'club_florijn'); ?>"
+                ><?php echo esc_textarea($ambassadors); ?></textarea>
+                <p style="margin-top: 5px; color: #666; font-size: 12px;">
+                    <?php esc_html_e('Example: John Doe, Jane Smith, Bob Johnson', 'club_florijn'); ?>
+                </p>
+            </div>
+            <?php
+        },
+        'bijeenkomst',
+        'normal',
+        'high'
+    );
+});
+
+// Save ambassadors meta data
+add_action('save_post_bijeenkomst', function($post_id) {
+    // Verify nonce
+    if (!isset($_POST['bijeenkomst_ambassadors_nonce']) ||
+        !wp_verify_nonce($_POST['bijeenkomst_ambassadors_nonce'], 'bijeenkomst_ambassadors_nonce')) {
+        return;
+    }
+
+    // Check user capability
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Sanitize and save the ambassadors field
+    if (isset($_POST['bijeenkomst_ambassadors'])) {
+        $ambassadors = sanitize_textarea_field($_POST['bijeenkomst_ambassadors']);
+        update_post_meta($post_id, '_bijeenkomst_ambassadors', $ambassadors);
+    } else {
+        delete_post_meta($post_id, '_bijeenkomst_ambassadors');
+    }
+});
