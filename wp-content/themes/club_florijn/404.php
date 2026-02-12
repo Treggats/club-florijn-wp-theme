@@ -13,42 +13,7 @@
 </head>
 <body class="bg-gray-50 text-gray-900 antialiased">
     <div id="main-container" class="flex flex-col min-h-screen">
-        <!-- Header -->
-        <header id="header" class="bg-blue-900 text-white sticky top-0 z-50 shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-20">
-                    <!-- Logo/Site Title -->
-                    <div class="flex-shrink-0">
-                        <h1 class="text-2xl font-bold">
-                            <a href="<?php echo esc_url(home_url('/')); ?>" class="text-white hover:text-blue-100 transition-colors">
-                                <?php bloginfo('name'); ?>
-                            </a>
-                        </h1>
-                    </div>
-
-                    <!-- Navigation Menu -->
-                    <nav class="hidden md:flex space-x-8">
-                        <?php
-                        wp_nav_menu(array(
-                            'theme_location' => 'primary',
-                            'fallback_cb' => false,
-                            'container_class' => 'flex space-x-8',
-                            'link_before' => '<span class="text-blue-100 hover:text-white transition-colors">',
-                            'link_after' => '</span>',
-                            'depth' => 1
-                        ));
-                        ?>
-                    </nav>
-
-                    <!-- Mobile Menu Button -->
-                    <button class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-blue-800 transition-colors" aria-expanded="false">
-                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </header>
+        <?php get_template_part('header'); ?>
 
         <!-- Main Content -->
         <main id="main" class="site-main flex-grow flex items-center justify-center">
