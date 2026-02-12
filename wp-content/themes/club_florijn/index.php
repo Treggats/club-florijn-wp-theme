@@ -32,6 +32,11 @@
                             $posts = new WP_Query( $args );
                             if ($posts->have_posts()) : ?>
                                 <div class="space-y-6">
+                                    <?php
+                                    if (is_active_sidebar('titel-top-sidebar')) {
+                                        dynamic_sidebar('titel-top-sidebar');
+                                    }
+                                    ?>
                                     <?php while ($posts->have_posts()) : $posts->the_post(); ?>
                                         <article id="post-<?php the_ID(); ?>" class="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-blue-900">
                                             <!-- Title -->
