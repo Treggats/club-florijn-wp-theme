@@ -18,9 +18,16 @@
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                         <!-- Left Column - Posts (3 columns width) -->
                         <div class="lg:col-span-3">
-                            <?php if (have_posts()) : ?>
+                            <?php
+                            $args = array(
+                                    'category__in' => array( 1 ),  // Single category ID
+                                    'posts_per_page' => 10,
+                                    'paged' => get_query_var( 'paged' ) ?: 1
+                            );
+                            $posts = new WP_Query( $args );
+                            if ($posts->have_posts()) : ?>
                                 <div class="space-y-6">
-                                    <?php while (have_posts()) : the_post(); ?>
+                                    <?php while ($posts->have_posts()) : $posts->the_post(); ?>
                                         <article id="post-<?php the_ID(); ?>" class="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-blue-900">
                                             <!-- Title -->
                                             <h2 class="text-2xl font-bold text-gray-900 mb-2">
@@ -57,6 +64,7 @@
                                             </a>
                                         </article>
                                     <?php endwhile; ?>
+                                    <?php wp_reset_postdata(); ?>
                                 </div>
 
                                 <!-- Pagination -->
@@ -92,18 +100,26 @@
 
                         <!-- Right Sidebar - Agenda (1 column width) -->
                         <div class="lg:col-span-1">
+                            <aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24 mb-4">
+                                <h3 class="text-xl font-bold text-gray-900 mb-6">
+                                    <?php esc_html_e('Ambassadeurs', 'club_florijn'); ?>
+                                </h3>
+                                <div>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda at consectetur cumque cupiditate eos error exercitationem fuga, illum impedit ipsa iusto nam repellendus sapiente sequi, ullam ut voluptates. Aut, tempore?
+                                </div>
+                            </aside>
                             <aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24">
                                 <h3 class="text-xl font-bold text-gray-900 mb-6">
-                                    <?php esc_html_e('Agenda', 'club_florijn'); ?>
+                                    <?php esc_html_e('Bijeenkomsten', 'club_florijn'); ?>
                                 </h3>
 
                                 <!-- Dynamic Agenda from Categories or Custom Widget -->
                                 <div class="space-y-3">
                                     <?php
-                                    $categories = get_categories(array(
+                                    $categories = get_categories([
                                         'number' => 5,
                                         'hide_empty' => false,
-                                    ));
+                                    ]);
 
                                     if ($categories) :
                                         foreach ($categories as $category) : ?>
