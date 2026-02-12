@@ -19,11 +19,16 @@
                         <!-- Left Column - Posts (3 columns width) -->
                         <div class="lg:col-span-3">
                             <?php
-                            $args = array(
-                                    'category__in' => array( 1 ),  // Single category ID
+                            // Configure which category to display posts from
+                            // Change the value in the array below to your desired category ID
+                            // Example: array( 2, 3 ) for multiple categories
+                            $category_ids = [1];
+
+                            $args = [
+                                    'category__in' => $category_ids,
                                     'posts_per_page' => 10,
                                     'paged' => get_query_var( 'paged' ) ?: 1
-                            );
+                            ];
                             $posts = new WP_Query( $args );
                             if ($posts->have_posts()) : ?>
                                 <div class="space-y-6">
@@ -74,8 +79,12 @@
                                         'prev_text' => '&larr; ' . esc_html__('Newer Posts', 'club_florijn'),
                                         'next_text' => esc_html__('Older Posts', 'club_florijn') . ' &rarr;',
                                         'type' => 'list',
+                                        'total' => $posts->max_num_pages,
                                     );
-                                    the_posts_pagination($pagination_args);
+                                    echo paginate_links(array_merge($pagination_args, array(
+                                        'current' => max(1, get_query_var('paged')),
+                                        'format' => get_pagenum_link() . '%#%',
+                                    )));
                                     ?>
                                 </nav>
 

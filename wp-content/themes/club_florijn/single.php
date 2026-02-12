@@ -71,7 +71,13 @@
                             <nav class="flex justify-between items-center mb-12">
                                 <div class="w-1/2">
                                     <?php
+                                    // Configure which category to filter previous/next posts by
+                                    // Change the value in the array below to match your desired category ID
+                                    $category_ids = [1];
+
                                     $prev_post = get_previous_post();
+                                    // Filter by category
+                                    $prev_post ??= get_previous_post(false, $category_ids);
                                     if ($prev_post) {
                                         echo '<a href="' . get_permalink($prev_post->ID) . '" class="text-blue-600 hover:text-blue-700 transition-colors">';
                                         echo '&larr; ' . esc_html__('Previous Post', 'club_florijn');
@@ -81,7 +87,7 @@
                                 </div>
                                 <div class="w-1/2 text-right">
                                     <?php
-                                    $next_post = get_next_post();
+                                    $next_post = get_next_post(true, $category_ids);
                                     if ($next_post) {
                                         echo '<a href="' . get_permalink($next_post->ID) . '" class="text-blue-600 hover:text-blue-700 transition-colors">';
                                         echo esc_html__('Next Post', 'club_florijn') . ' &rarr;';
