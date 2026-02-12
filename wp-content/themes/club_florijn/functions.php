@@ -2,7 +2,6 @@
 /**
  * Simple Posts Theme Functions
  */
- require_once get_template_directory() . '/MenuWalker.php';
 
  // Enqueue TailwindCSS and AlpineJS from CDN
 add_action('wp_enqueue_scripts', function() {

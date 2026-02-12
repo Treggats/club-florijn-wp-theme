@@ -44,12 +44,12 @@
 
         <!-- Mobile Menu -->
         <nav class="md:hidden bg-blue-800 border-t border-blue-700" x-show="mobileMenuOpen" @click.outside="mobileMenuOpen = false">
-            <div class="px-2 pt-2 pb-3 space-y-1">
+            <div class="pt-2 pb-3 space-y-1">
                 <?php
                 wp_nav_menu([
                         'theme_location' => 'primary',
                         'container' => false,
-                        'items_wrap' => '<ul class="list-none m-0 p-0">%3$s</ul>',
+                        'items_wrap' => '<ul class="list-none m-0 p-0 px-4">%3$s</ul>',
                         'link_before' => '',
                         'link_after' => '',
                         'link_class' => 'block px-3 py-2 rounded-md text-white hover:bg-blue-700 transition-colors',
