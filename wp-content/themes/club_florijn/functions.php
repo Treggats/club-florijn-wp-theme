@@ -4,8 +4,8 @@
  */
  require_once get_template_directory() . '/MenuWalker.php';
 
-// Enqueue TailwindCSS from CDN
-function simple_posts_enqueue_scripts() {
+ // Enqueue TailwindCSS from CDN
+add_action('wp_enqueue_scripts', function() {
     // Add TailwindCSS from CDN with optimizations
     wp_enqueue_script('tailwindcss', 'https://cdn.tailwindcss.com', array(), null, false);
 
@@ -21,11 +21,10 @@ function simple_posts_enqueue_scripts() {
             }
         }
     ');
-}
-add_action('wp_enqueue_scripts', 'simple_posts_enqueue_scripts');
+});
 
 // Theme setup
-function simple_posts_setup() {
+add_action('after_setup_theme', function() {
     // Add support for title tag
     add_theme_support('title-tag');
 
@@ -53,15 +52,13 @@ function simple_posts_setup() {
 
     // Add HTML5 support for forms and search
     add_theme_support('html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption'));
-}
-add_action('after_setup_theme', 'simple_posts_setup');
+});
 
 // Remove comment support
-function simple_posts_remove_comment_support() {
+add_action('init', function() {
     remove_post_type_support('post', 'comments');
     remove_post_type_support('page', 'comments');
-}
-add_action('init', 'simple_posts_remove_comment_support');
+});
 
 // Close comments on the front-end
 add_filter('comments_open', '__return_false', 20, 2);
