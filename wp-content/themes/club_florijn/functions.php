@@ -4,10 +4,13 @@
  */
  require_once get_template_directory() . '/MenuWalker.php';
 
- // Enqueue TailwindCSS from CDN
+ // Enqueue TailwindCSS and AlpineJS from CDN
 add_action('wp_enqueue_scripts', function() {
     // Add TailwindCSS from CDN with optimizations
-    wp_enqueue_script('tailwindcss', 'https://cdn.tailwindcss.com', array(), null, false);
+    wp_enqueue_script('tailwindcss', 'https://cdn.tailwindcss.com', [], null, false);
+
+    // Add AlpineJS from CDN
+    wp_enqueue_script('alpine-js', 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js', [], null, false);
 
     // Add Tailwind line clamp plugin for excerpt truncation
     wp_add_inline_script('tailwindcss', '
