@@ -109,15 +109,19 @@
 
                         <!-- Right Sidebar - Agenda (1 column width) -->
                         <div class="lg:col-span-1">
-                            <aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24 mb-4">
-                                <h3 class="text-xl font-bold text-gray-900 mb-6">
+                            <aside class="bg-white rounded-lg shadow-sm sticky top-24 mb-4">
+                                <div>
+                                <h3 class="text-xl font-bold text-gray-900 mx-8 pt-4">
                                     <?php esc_html_e('Ambassadeurs', 'club_florijn'); ?>
                                 </h3>
-                                <div>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda at consectetur cumque cupiditate eos error exercitationem fuga, illum impedit ipsa iusto nam repellendus sapiente sequi, ullam ut voluptates. Aut, tempore?
+                                    <?php
+                                    if (is_active_sidebar('ambassadeurs-sidebar')) {
+                                        dynamic_sidebar('ambassadeurs-sidebar');
+                                    }
+                                    ?>
                                 </div>
                             </aside>
-                            <aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24">
+                            <aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24 border-t-4 border-gray-50">
                                 <h3 class="text-xl font-bold text-gray-900 mb-6">
                                     <?php esc_html_e('Bijeenkomsten', 'club_florijn'); ?>
                                 </h3>
