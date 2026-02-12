@@ -8,7 +8,7 @@
 </head>
 <body class="bg-gray-50 text-gray-900 antialiased">
     <div id="main-container" class="flex flex-col min-h-screen">
-        <?php get_template_part('header'); ?>
+        <?php get_template_part('parts/header'); ?>
 
         <!-- Main Content -->
         <main id="main" class="site-main flex-grow">
