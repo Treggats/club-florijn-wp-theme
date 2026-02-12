@@ -2,6 +2,7 @@
 /**
  * Simple Posts Theme Functions
  */
+ require_once get_template_directory() . '/MenuWalker.php';
 
 // Enqueue TailwindCSS from CDN
 function simple_posts_enqueue_scripts() {
