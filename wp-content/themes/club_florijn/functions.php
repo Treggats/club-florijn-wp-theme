@@ -139,6 +139,17 @@ add_action('widgets_init', function() {
     ]);
 });
 
+add_action('widgets_init', function() {
+    register_sidebar([
+        'name' => esc_html__('Title block', 'club_florijn'),
+        'id' => 'titel-top-sidebar',
+        'description' => esc_html__('Sidebar for displaying a title block.', 'club_florijn'),
+        'before_widget' => '<aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24 mb-4">',
+        'after_widget' => '</aside>',
+        'before_title' => '<h3 class="text-xl font-bold text-gray-900 mb-6">',
+        'after_title' => '</h3>',
+    ]);
+});
 
 // Load and register custom widgets
 require_once get_template_directory() . '/widgets/ShortTextWidget.php';
