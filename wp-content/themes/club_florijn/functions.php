@@ -5,14 +5,25 @@
 
  // Enqueue TailwindCSS and AlpineJS from CDN
 add_action('wp_enqueue_scripts', function() {
-    // Add Tailwind config file (must load before the CDN script)
-    wp_enqueue_script('tailwind-config', get_template_directory_uri() . '/tailwind-config.js', [], null, false);
-
     // Add TailwindCSS from CDN with optimizations
     wp_enqueue_script('tailwindcss', 'https://cdn.tailwindcss.com', [], null, false);
 
     // Add AlpineJS from CDN
     wp_enqueue_script('alpine-js', 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js', [], null, false);
+    wp_add_inline_script('tailwindcss', '
+        tailwind.config = {
+            corePlugins: {
+                preflight: true,
+            },
+            theme: {
+                extend: {
+                    lineClamp: {
+                        3: "3",
+                    }
+                }
+            }
+        }
+    ');
 
     // Enqueue WordPress block styles
     wp_enqueue_style('club-florijn-wp-blocks', get_template_directory_uri() . '/wp-blocks.css', [], '1.0.0');
