@@ -5,24 +5,17 @@
 
  // Enqueue TailwindCSS and AlpineJS from CDN
 add_action('wp_enqueue_scripts', function() {
+    // Add Tailwind config file (must load before the CDN script)
+    wp_enqueue_script('tailwind-config', get_template_directory_uri() . '/tailwind-config.js', [], null, false);
+
     // Add TailwindCSS from CDN with optimizations
     wp_enqueue_script('tailwindcss', 'https://cdn.tailwindcss.com', [], null, false);
 
     // Add AlpineJS from CDN
     wp_enqueue_script('alpine-js', 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js', [], null, false);
 
-    // Add Tailwind line clamp plugin for excerpt truncation
-    wp_add_inline_script('tailwindcss', '
-        tailwind.config = {
-            theme: {
-                extend: {
-                    lineClamp: {
-                        3: "3",
-                    }
-                }
-            }
-        }
-    ');
+    // Enqueue WordPress block styles
+    wp_enqueue_style('club-florijn-wp-blocks', get_template_directory_uri() . '/wp-blocks.css', [], '1.0.0');
 });
 
 // Theme setup
@@ -196,6 +189,15 @@ add_action('init', function() {
         'show_in_rest' => true,
         'single' => true,
     ));
+
+    // Event date meta field
+    register_meta('post', '_bijeenkomst_date', array(
+        'object_subtype' => 'bijeenkomst',
+        'type' => 'string',
+        'description' => esc_html__('Date when the event is being held', 'club_florijn'),
+        'show_in_rest' => true,
+        'single' => true,
+    ));
 });
 
 // Add custom meta box for ambassadors in the post editor
@@ -228,6 +230,36 @@ add_action('add_meta_boxes', function() {
         'normal',
         'high'
     );
+
+    // Add meta box for event date
+    add_meta_box(
+        'bijeenkomst_date',
+        esc_html__('Event Date', 'club_florijn'),
+        function($post) {
+            $date = get_post_meta($post->ID, '_bijeenkomst_date', true);
+            wp_nonce_field('bijeenkomst_date_nonce', 'bijeenkomst_date_nonce');
+            ?>
+            <div style="margin: 10px 0;">
+                <label for="bijeenkomst_date" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                    <?php esc_html_e('Date of Event', 'club_florijn'); ?>
+                </label>
+                <input
+                    type="date"
+                    id="bijeenkomst_date"
+                    name="bijeenkomst_date"
+                    value="<?php echo esc_attr($date); ?>"
+                    style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+                />
+                <p style="margin-top: 5px; color: #666; font-size: 12px;">
+                    <?php esc_html_e('Select the date when this event is being held.', 'club_florijn'); ?>
+                </p>
+            </div>
+            <?php
+        },
+        'bijeenkomst',
+        'normal',
+        'high'
+    );
 });
 
 // Save ambassadors meta data
@@ -249,5 +281,27 @@ add_action('save_post_bijeenkomst', function($post_id) {
         update_post_meta($post_id, '_bijeenkomst_ambassadors', $ambassadors);
     } else {
         delete_post_meta($post_id, '_bijeenkomst_ambassadors');
+    }
+});
+
+// Save event date meta data
+add_action('save_post_bijeenkomst', function($post_id) {
+    // Verify nonce
+    if (!isset($_POST['bijeenkomst_date_nonce']) ||
+        !wp_verify_nonce($_POST['bijeenkomst_date_nonce'], 'bijeenkomst_date_nonce')) {
+        return;
+    }
+
+    // Check user capability
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Sanitize and save the date field
+    if (isset($_POST['bijeenkomst_date'])) {
+        $date = sanitize_text_field($_POST['bijeenkomst_date']);
+        update_post_meta($post_id, '_bijeenkomst_date', $date);
+    } else {
+        delete_post_meta($post_id, '_bijeenkomst_date');
     }
 });
