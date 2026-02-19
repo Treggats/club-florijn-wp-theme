@@ -16,7 +16,7 @@ $sidebar_items = $data['sidebar'];
     <div class="space-y-6">
 
         <aside class="bg-white rounded-lg p-8 shadow-sm mb-4">
-            <h3 class="text-xl font-bold text-gray-900 mb-6"><?php esc_html_e('Programma', 'club_florijn'); ?></h3>
+            <h3 class="text-xl font-bold text-gray-900 mb-6"><?php esc_html_e( get_theme_mod( 'club_florijn_programma_title', 'Programma' ) ); ?></h3>
 
             <?php if (!empty($sidebar_items)) : ?>
                 <ul>

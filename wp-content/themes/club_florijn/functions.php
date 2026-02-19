@@ -295,3 +295,26 @@ add_action('save_post_bijeenkomst', function($post_id) {
         delete_post_meta($post_id, '_bijeenkomst_date');
     }
 });
+
+add_action('customize_register', function ($wp_customize) {
+    /** @var WP_Customize_Manager $wp_customize */
+    // Add a section for Programma settings
+    $wp_customize->add_section('club_florijn_programma_options', [
+            'title' => __('Programma Opties', 'club-florijn'),
+            'priority' => 30,
+    ]);
+
+    // Add setting for programma title text
+    $wp_customize->add_setting('club_florijn_programma_title', [
+            'default' => 'Programma',
+            'sanitize_callback' => 'sanitize_text_field',
+            'transport' => 'refresh',
+    ]);
+
+    // Add control for programma title text
+    $wp_customize->add_control('club_florijn_programma_title', [
+            'label' => __('Programma Titel Tekst', 'club-florijn'),
+            'section' => 'club_florijn_programma_options',
+            'type' => 'text',
+    ]);
+});
