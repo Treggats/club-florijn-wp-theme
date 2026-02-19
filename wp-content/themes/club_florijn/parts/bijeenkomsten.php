@@ -83,28 +83,10 @@ $sidebar_items = $data['sidebar'];
 
                 </article>
             <?php endwhile; ?>
-            <?php wp_reset_postdata(); ?>
         <?php else : ?>
             <p class="text-gray-600"><?php esc_html_e('No posts found.', 'club_florijn'); ?></p>
         <?php endif; ?>
 
     </div>
-
-    <!-- Pagination -->
-    <nav class="flex justify-center gap-4 mt-12" aria-label="Posts">
-        <?php
-        $pagination_args = [
-            'prev_text' => '&larr; ' . esc_html__('Newer Posts', 'club_florijn'),
-            'next_text' => esc_html__('Older Posts', 'club_florijn') . ' &rarr;',
-            'type'      => 'list',
-            'total'     => $posts_query->max_num_pages,
-        ];
-
-        echo paginate_links(array_merge($pagination_args, [
-            'current' => max(1, get_query_var('paged')),
-            'format'  => get_pagenum_link() . '%#%',
-        ]));
-        ?>
-    </nav>
 
 </div> <!-- .lg:col-span-4 -->
