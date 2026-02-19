@@ -23,6 +23,10 @@
                                 'posts_per_page' => 4,
                                 'post_type'      => 'bijeenkomst',
                                 'paged'          => get_query_var('paged') ?: 1,
+                                // Order by the event date saved in postmeta
+                                'meta_key'       => '_bijeenkomst_date',
+                                'orderby'        => 'meta_value',
+                                'order'          => 'ASC',
                             ];
 
                             $posts_query = new WP_Query($args);
@@ -37,8 +41,10 @@
                                     $bijeenkomsten = get_posts([
                                         'post_type'   => 'bijeenkomst',
                                         'numberposts' => 4,
-                                        'orderby'     => 'date',
-                                        'order'       => 'DESC',
+                                        // Order sidebar list by the event date postmeta
+                                        'meta_key'    => '_bijeenkomst_date',
+                                        'orderby'     => 'meta_value',
+                                        'order'       => 'ASC',
                                     ]);
 
                                     if (!empty($bijeenkomsten)) : ?>
