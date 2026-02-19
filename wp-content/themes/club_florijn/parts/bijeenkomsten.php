@@ -1,63 +1,38 @@
 <?php
 // parts/bijeenkomsten.php
-// Extracted logic: query for 'bijeenkomst' posts, render sidebar list, posts loop and pagination.
+// Presentation-only template: uses helper functions from `bijeenkomsten-data.php` for data.
 
+require_once __DIR__ . '/bijeenkomsten-data.php';
+
+// Pull data (WP_Query + sidebar array)
+$data = club_florijn_get_bijeenkomsten_data(4, 4);
+/** @var WP_Query $posts_query */
+$posts_query = $data['query'];
+$sidebar_items = $data['sidebar'];
 ?>
+
 <div class="lg:col-span-4">
-
-    <?php
-    $args = [
-        'posts_per_page' => 4,
-        'post_type'      => 'bijeenkomst',
-        'paged'          => get_query_var('paged') ?: 1,
-        // Order by the event date saved in postmeta
-        'meta_key'       => '_bijeenkomst_date',
-        'orderby'        => 'meta_value',
-        'order'          => 'ASC',
-    ];
-
-    $posts_query = new WP_Query($args);
-    ?>
 
     <div class="space-y-6">
 
         <aside class="bg-white rounded-lg p-8 shadow-sm mb-4">
             <h3 class="text-xl font-bold text-gray-900 mb-6"><?php esc_html_e('Programma', 'club_florijn'); ?></h3>
 
-            <?php
-            $bijeenkomsten = get_posts([
-                'post_type'   => 'bijeenkomst',
-                'numberposts' => 4,
-                // Order sidebar list by the event date postmeta
-                'meta_key'    => '_bijeenkomst_date',
-                'orderby'     => 'meta_value',
-                'order'       => 'ASC',
-            ]);
-
-            if (!empty($bijeenkomsten)) : ?>
+            <?php if (!empty($sidebar_items)) : ?>
                 <ul>
-                    <?php foreach ($bijeenkomsten as $bijeenkomst) :
-                        $ambassadors = get_post_meta($bijeenkomst->ID, '_bijeenkomst_ambassadors', true);
-                        $raw_date = get_post_meta($bijeenkomst->ID, '_bijeenkomst_date', true);
-
-                        $date = false;
-                        if (!empty($raw_date)) {
-                            $date = date_create_from_format('Y-m-d', $raw_date);
-                        }
-                        ?>
-
+                    <?php foreach ($sidebar_items as $item) : ?>
                         <li>
-                            <a href="<?php echo esc_url(get_permalink($bijeenkomst->ID)); ?>" class="block text-blue-600 hover:text-blue-700 transition-colors text-sm font-medium">
-                                <strong><?php echo esc_html($bijeenkomst->post_title); ?></strong>
+                            <a href="<?php echo esc_url($item['permalink']); ?>" class="block text-blue-600 hover:text-blue-700 transition-colors text-sm font-medium">
+                                <strong><?php echo esc_html($item['title']); ?></strong>
 
-                                <?php if (!empty($ambassadors) || $date) : ?>
+                                <?php if (!empty($item['ambassadors']) || !empty($item['formatted_date'])) : ?>
                                     <div class="text-xs text-gray-600 mt-1">
-                                        <?php if ($date) : ?>
-                                            <p><?php echo esc_html($date->format('l d F Y')); ?></p>
+                                        <?php if (!empty($item['formatted_date'])) : ?>
+                                            <p><?php echo esc_html($item['formatted_date']); ?></p>
                                         <?php endif; ?>
 
-                                        <?php if (!empty($ambassadors)) : ?>
-                                            <p><?php esc_html_e('Ambassadeurs:', 'club_florijn'); ?> <?php echo esc_html($ambassadors); ?></p>
+                                        <?php if (!empty($item['ambassadors'])) : ?>
+                                            <p><?php esc_html_e('Ambassadeurs:', 'club_florijn'); ?> <?php echo esc_html($item['ambassadors']); ?></p>
                                         <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
@@ -85,12 +60,12 @@
                     <!-- Metadata -->
                     <div class="flex items-center gap-4 mb-4 text-sm text-gray-500">
                         <time datetime="<?php echo get_the_date('c'); ?>">
-                            <?php echo get_the_date('F j, Y'); ?>
+                            <?php echo date_i18n('F j, Y', strtotime(get_post_meta(get_the_ID(), '_bijeenkomst_date', true))); ?>
                         </time>
 
                         <?php if (get_the_author()) : ?>
                             <span>|</span>
-                            <span><?php esc_html_e('By', 'club_florijn'); ?> <strong><?php the_author(); ?></strong></span>
+                            <span><?php esc_html_e('Door', 'club_florijn'); ?> <strong><?php the_author(); ?></strong></span>
                         <?php endif; ?>
                     </div>
 
