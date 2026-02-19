@@ -17,27 +17,52 @@
                 <div class="max-w-7xl mx-auto">
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                         <!-- Left Column - Posts (3 columns width) -->
-                        <div class="lg:col-span-3">
+                        <div class="lg:col-span-4">
                             <?php
-                            // Configure which category to display posts from
-                            // Change the value in the array below to your desired category ID
-                            // Example: array( 2, 3 ) for multiple categories
-                            $category_ids = [1];
-
                             $args = [
-                                    'category__in' => $category_ids,
-                                    'posts_per_page' => 10,
+                                    'posts_per_page' => 4,
+                                    'post_type' => 'bijeenkomst',
                                     'paged' => get_query_var( 'paged' ) ?: 1
                             ];
-                            $posts = new WP_Query( $args );
-                            if ($posts->have_posts()) : ?>
+                            $posts = new WP_Query( $args ); ?>
                                 <div class="space-y-6">
-                                    <?php
-                                    if (is_active_sidebar('titel-top-sidebar')) {
-                                        dynamic_sidebar('titel-top-sidebar');
-                                    }
-                                    ?>
-                                    <?php while ($posts->have_posts()) : $posts->the_post(); ?>
+                                    <aside class="bg-white rounded-lg p-8 shadow-sm mb-4">
+                                        <h3 class="text-xl font-bold text-gray-900 mb-6">Programma</h3>
+                                        <?php
+                                        $bijeenkomsten = get_posts([
+                                                'post_type' => 'bijeenkomst',
+                                                'numberposts' => 4,
+                                                'orderby' => 'date',
+                                                'order' => 'DESC',
+                                        ]);
+//                                        print_r($bijeenkomsten);
+
+                                        if ($bijeenkomsten) : ?>
+                                            <ul>
+                                                <?php foreach ($bijeenkomsten as $bijeenkomst) :
+                                                    $ambassadors = get_post_meta($bijeenkomst->ID, '_bijeenkomst_ambassadors', true);
+                                                    $date = date_create_from_format('Y-m-d', get_post_meta($bijeenkomst->ID, '_bijeenkomst_date', true));
+                                                    ?>
+                                                    <li>
+                                                        <a href="<?php echo esc_url(get_permalink($bijeenkomst->ID)); ?>" class="block text-blue-600 hover:text-blue-700 transition-colors text-sm font-medium">
+                                                            <strong><?php echo esc_html($bijeenkomst->post_title); ?></strong>
+                                                            <?php if ($ambassadors) : ?>
+                                                                <div class="text-xs text-gray-600 mt-1">
+                                                                    <p>
+                                                                        Op <?php echo esc_html($date->format('l d F Y')); ?>
+                                                                    </p>
+                                                                    Ambassadeurs: <?php echo esc_html($ambassadors); ?>
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        <?php else : ?>
+                                            <p class="text-gray-600 text-sm"><?php esc_html_e('No bijeenkomsten available', 'club_florijn'); ?></p>
+                                        <?php endif; ?>
+                                    </aside>
+                                        <?php while ($posts->have_posts()) : $posts->the_post(); ?>
                                         <article id="post-<?php the_ID(); ?>" class="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-blue-900">
                                             <!-- Title -->
                                             <h2 class="text-2xl font-bold text-gray-900 mb-2">
@@ -62,15 +87,13 @@
                                                 <?php
                                                 if (has_excerpt()) {
                                                     echo get_the_excerpt();
-                                                } else {
-                                                    echo wp_trim_words(get_the_content(), 30);
                                                 }
                                                 ?>
                                             </div>
 
                                             <!-- Read More Link -->
                                             <a href="<?php the_permalink(); ?>" class="inline-block text-blue-600 hover:text-blue-700 font-semibold transition-colors">
-                                                <?php esc_html_e('Read More', 'club_florijn'); ?> &rarr;
+                                                <?php esc_html_e('Lees meer', 'club_florijn'); ?> &rarr;
                                             </a>
                                         </article>
                                     <?php endwhile; ?>
@@ -92,85 +115,10 @@
                                     )));
                                     ?>
                                 </nav>
-
-                            <?php else : ?>
-                                <!-- No Posts Message -->
-                                <div class="text-center py-12">
-                                    <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                    </svg>
-                                    <h3 class="text-lg font-medium text-gray-900 mb-2">
-                                        <?php esc_html_e('No posts found', 'club_florijn'); ?>
-                                    </h3>
-                                    <p class="text-gray-600 mb-6">
-                                        <?php esc_html_e('Try using the search above or check back later.', 'club_florijn'); ?>
-                                    </p>
-                                    <a href="<?php echo esc_url(home_url('/')); ?>" class="inline-block px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors">
-                                        <?php esc_html_e('Back to Home', 'club_florijn'); ?>
-                                    </a>
-                                </div>
-                            <?php endif; ?>
                         </div>
 
-                        <!-- Right Sidebar - Agenda (1 column width) -->
-                        <div class="lg:col-span-1">
-                            <aside class="bg-white rounded-lg shadow-sm sticky top-24 mb-4">
-                                <div>
-                                <h3 class="text-xl font-bold text-gray-900 mx-8 pt-4">
-                                    <?php esc_html_e('Ambassadeurs', 'club_florijn'); ?>
-                                </h3>
-                                    <?php
-                                    if (is_active_sidebar('ambassadeurs-sidebar')) {
-                                        dynamic_sidebar('ambassadeurs-sidebar');
-                                    }
-                                    ?>
-                                </div>
-                            </aside>
-                            <aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24 border-t-4 border-gray-50">
-                                <h3 class="text-xl font-bold text-gray-900 mb-6">
-                                    <?php esc_html_e('Bijeenkomsten', 'club_florijn'); ?>
-                                </h3>
-
-                                <!-- Dynamic Bijeenkomsten List -->
-                                <div class="space-y-3">
-                                    <?php
-                                    $bijeenkomsten = get_posts([
-                                        'post_type' => 'bijeenkomst',
-                                        'numberposts' => 5,
-                                        'orderby' => 'date',
-                                        'order' => 'DESC',
-                                    ]);
-
-                                    if ($bijeenkomsten) : ?>
-                                        <ul>
-                                        <?php foreach ($bijeenkomsten as $bijeenkomst) :
-                                            $ambassadors = get_post_meta($bijeenkomst->ID, '_bijeenkomst_ambassadors', true);
-                                            $date = date_create_from_format('Y-m-d', get_post_meta($bijeenkomst->ID, '_bijeenkomst_date', true));
-                                        ?>
-                                        <li>
-                                            <a href="<?php echo esc_url(get_permalink($bijeenkomst->ID)); ?>" class="block text-blue-600 hover:text-blue-700 transition-colors text-sm font-medium">
-                                                <strong><?php echo esc_html($bijeenkomst->post_title); ?></strong>
-                                                <?php if ($ambassadors) : ?>
-                                                    <div class="text-xs text-gray-600 mt-1">
-                                                        <p>
-                                                            Op <?php echo esc_html($date->format('l d F Y')); ?>
-                                                        </p>
-                                                        Ambassadeurs: <?php echo esc_html($ambassadors); ?>
-                                                    </div>
-                                                <?php endif; ?>
-                                            </a>
-                                        </li>
-                                        <?php endforeach; ?>
-                                        </ul>
-                                    <?php else : ?>
-                                        <p class="text-gray-600 text-sm"><?php esc_html_e('No bijeenkomsten available', 'club_florijn'); ?></p>
-                                    <?php endif; ?>
-                                </div>
-                            </aside>
-                        </div>
                     </div>
                 </div>
-            </div>
         </main>
 
         <!-- Footer -->
