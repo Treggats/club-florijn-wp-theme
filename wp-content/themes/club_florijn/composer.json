@@ -1,0 +1,20 @@
+{
+    "name": "tonkomulder/club-florijn",
+    "description": "A modern, minimal WordPress theme inspired by clubflorijn.nl. Features a clean card-based design with TailwindCSS, sticky header navigation, search functionality, and responsive layouts.",
+    "type": "wordpress-theme",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Tonko Mulder",
+            "homepage": "https://tonkomulder.nl"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
