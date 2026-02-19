@@ -132,6 +132,10 @@ class Simple_Posts_Menu_Walker extends Walker_Nav_Menu {
 add_theme_support('wp-block-styles');
 add_theme_support('responsive-embeds');
 
+// Disable the block editor and use the classic editor for all post types
+// Disable block editor for all post types (posts, pages, custom post types)
+add_filter('use_block_editor_for_post_type', fn ($use_block_editor, $post_type) => false, 10, 2);
+
 // Register widget areas
 add_action('widgets_init', function() {
     register_sidebar([
