@@ -136,31 +136,6 @@ add_theme_support('responsive-embeds');
 // Disable block editor for all post types (posts, pages, custom post types)
 add_filter('use_block_editor_for_post_type', fn ($use_block_editor, $post_type) => false, 10, 2);
 
-// Register widget areas
-add_action('widgets_init', function() {
-    register_sidebar([
-        'name' => esc_html__('Ambassadeurs', 'club_florijn'),
-        'id' => 'ambassadeurs-sidebar',
-        'description' => esc_html__('Sidebar for displaying information about ambassadors.', 'club_florijn'),
-        'before_widget' => '<aside class="bg-white rounded-lg p-8 shadow-sm sticky top-24 mb-4">',
-        'after_widget' => '</aside>',
-        'before_title' => '<h3 class="text-xl font-bold text-gray-900 mb-6">',
-        'after_title' => '</h3>',
-    ]);
-});
-
-add_action('widgets_init', function() {
-    register_sidebar([
-        'name' => esc_html__('Title block', 'club_florijn'),
-        'id' => 'titel-top-sidebar',
-        'description' => esc_html__('Sidebar for displaying a title block.', 'club_florijn'),
-        'before_widget' => '<aside class="bg-white rounded-lg p-8 shadow-sm mb-4">',
-        'after_widget' => '</aside>',
-        'before_title' => '<h3 class="text-xl font-bold text-gray-900 mb-6">',
-        'after_title' => '</h3>',
-    ]);
-});
-
 // Load and register custom widgets
 require_once get_template_directory() . '/widgets/ShortTextWidget.php';
 
