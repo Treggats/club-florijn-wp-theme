@@ -17,12 +17,24 @@ final class BijeenkomstenData
      */
     public static function list(int $limit = 4, array $args = []): array
     {
+        $current_year = date('Y');
         $default_args = [
             'post_type' => 'bijeenkomst',
             'posts_per_page' => $limit,
             'meta_key' => '_bijeenkomst_date',
             'orderby' => 'meta_value',
             'order' => 'ASC',
+            'meta_query' => [
+                [
+                    'key' => '_bijeenkomst_date',
+                    'value' => [
+                        $current_year . '-01-01',
+                        $current_year . '-12-31',
+                    ],
+                    'compare' => 'BETWEEN',
+                    'type' => 'DATE',
+                ],
+            ],
         ];
 
         $query_args = array_merge($default_args, $args);
